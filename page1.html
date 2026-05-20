@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Quick Saving">
+    
+    <title>Quick Saving - Premium Investment Hub</title>
+    <style>
+        :root {
+            --bg-dark: #0b0f19;
+            --card-bg: #131a2c;
+            --accent-blue: #2563eb;
+            --accent-cyan: #06b6d4;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warn: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent; /* Mobile browser par clicks smooth krne k leye */
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at 50% 0%, #1e2942 0%, var(--bg-dark) 70%);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px 16px;
+            display: flex;
+            justify-content: center;
+            -webkit-text-size-adjust: 100%; /* iOS browser text auto-resize lock */
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 500px;
+            background: var(--card-bg);
+            border-radius: 28px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid #1e293b;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            padding: 28px 24px;
+            text-align: center;
+            border-bottom: 1px solid #1e293b;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #38bdf8, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        .content {
+            padding: 24px 20px;
+            flex: 1;
+        }
+
+        .profile-tile {
+            display: flex;
+            align-items: center;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid #2d3748;
+            border-radius: 18px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            gap: 14px;
+        }
+
+        .profile-avatar {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .profile-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .profile-referrer {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .profile-referrer strong {
+            color: var(--warn);
+        }
+
+        .card-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            text-align: center;
+            color: var(--text-main);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 14px;
+            border: 1px solid #2d3748;
+            font-size: 16px; /* iPhone zoom prevention safe size */
+            background: #0f172a;
+            color: var(--text-main);
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: var(--accent-cyan);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.15);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:active { transform: scale(0.98); }
+        .btn-primary { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-outline { background: transparent; border: 1px solid var(--accent-blue); color: var(--accent-blue); }
+
+        .switch-text { text-align: center; margin-top: 24px; color: var(--text-muted); font-size: 14px; }
+        .switch-text span { color: var(--accent-cyan); cursor: pointer; font-weight: 600; }
+
+        .balance-card {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid #2d3748;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .balance-label { font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .live-balance { font-size: 38px; font-weight: 800; color: #fff; margin: 8px 0; font-family: monospace; }
+        .balance-sub { font-size: 12px; color: var(--success); }
+
+        .mini-tiles {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+
+        .tile {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 12px 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid #2d3748;
+        }
+
+        .tile:hover { background: #2d3748; border-color: var(--text-muted); }
+        .tile .icon { font-size: 22px; margin-bottom: 4px; display: block; }
+        .tile span { font-size: 11px; font-weight: 600; color: var(--text-main); }
+
+        .section-title { font-size: 16px; margin: 24px 0 12px 0; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .plan-card {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 16px 12px;
+            text-align: center;
+            border: 1px solid #2d3748;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .plan-card:hover { transform: translateY(-2px); border-color: var(--accent-cyan); }
+        .plan-amount { font-weight: 800; font-size: 18px; color: var(--accent-cyan); }
+        .plan-daily { font-size: 12px; color: var(--text-main); margin: 6px 0; font-weight: 600; }
+        .plan-total { font-size: 11px; color: var(--text-muted); }
+        .invest-btn { background: var(--accent-blue); color: white; border: none; padding: 8px; border-radius: 10px; margin-top: 10px; width: 100%; cursor: pointer; font-weight: 600; font-size: 12px; }
+
+        .active-plans-container { display: flex; flex-direction: column; gap: 10px; }
+        .active-plan-card {
+            background: linear-gradient(90deg, #111827 0%, #1f2937 100%);
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            border: 1px solid #2d3748;
+            border-left: 4px solid var(--success);
+        }
+        .active-plan-header { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 6px; }
+        .active-plan-meta { display: flex; justify-content: space-between; color: var(--text-muted); font-size: 12px; margin-top: 4px;}
+        .countdown-timer { color: var(--warn); font-family: monospace; font-weight: bold; }
+
+        .info-panel { background: #111827; border-radius: 18px; padding: 16px; margin-top: 20px; border: 1px solid #2d3748; }
+        .history-item { padding: 12px 0; border-bottom: 1px solid #2d3748; font-size: 13px; }
+        .history-item:last-child { border: none; }
+
+        /* Referral Code System Styles */
+        .referral-panel {
+            background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+            border-radius: 18px;
+            padding: 16px;
+            margin-top: 20px;
+            border: 1px solid #4338ca;
+        }
+        .referral-box {
+            display: flex;
+            background: #0f172a;
+            border: 1px solid #312e81;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .referral-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px;
+            color: var(--accent-cyan);
+            font-family: monospace;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .referral-input:focus { outline: none; }
+        .btn-copy {
+            background: #4338ca;
+            color: white;
+            border: none;
+            padding: 0 16px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: background 0.2s;
+        }
+        .btn-copy:hover { background: #4f46e5; }
+
+        .admin-panel { background: #1c1917; border-radius: 18px; padding: 16px; margin-top: 20px; border: 1px solid var(--warn); }
+        .admin-panel summary { cursor: pointer; font-weight: bold; color: var(--warn); margin-bottom: 6px;}
+        
+        .user-list-item { 
+            display: flex; 
+            flex-direction: column;
+            gap: 6px;
+            padding: 12px 0; 
+            border-bottom: 1px solid #2d3748; 
+            font-size: 13px; 
+        }
+        .user-row-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .user-controls {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .btn-mini {
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-mini-ban { background: var(--warn); color: #000; }
+        .btn-mini-unban { background: var(--success); color: #fff; }
+        .btn-mini-del { background: var(--danger); color: #fff; }
+        .btn-mini-edit { background: var(--accent-blue); color: #fff; }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 2000; padding: 16px; backdrop-filter: blur(4px); overflow-y: auto; }
+        .modal-content { background: var(--card-bg); border-radius: 24px; padding: 24px; width: 100%; max-width: 420px; border: 1px solid #2d3748; max-height: 90vh; overflow-y: auto; }
+        
+        .jazzcash-box { background: #1e293b; padding: 14px; border-radius: 14px; margin: 15px 0; text-align: center; border: 1px solid var(--accent-blue); }
+        .screenshot-preview { max-width: 100%; max-height: 120px; border-radius: 12px; margin-top: 10px; display: none; object-fit: contain; margin-left: auto; margin-right: auto; }
+        .file-label { background: #0f172a; padding: 12px; border-radius: 12px; text-align: center; cursor: pointer; border: 2px dashed #4b5563; margin: 10px 0; font-size: 14px; }
+        .alert-box { background: rgba(245, 158, 11, 0.1); border-left: 4px solid var(--warn); padding: 12px; border-radius: 10px; margin: 10px 0; font-size: 12px; color: #fde047; }
+        
+        /* Admin Edit Sub-form */
+        .admin-edit-box { background: #0f172a; border: 1px solid #334155; padding: 12px; border-radius: 12px; margin-top: 8px; }
+        .admin-edit-title { font-size: 12px; font-weight: bold; color: var(--accent-cyan); margin-bottom: 8px; text-transform: uppercase; }
+        .edit-hist-item { background: #1e293b; padding: 8px; border-radius: 8px; margin-bottom: 6px; font-size: 11px; border: 1px solid #2d3748;}
+
+        footer { text-align: center; padding: 20px; font-size: 11px; color: var(--text-muted); border-top: 1px solid #1e293b; background: #0f172a; }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <div class="header">
+        <h1>⚡ QUICK SAVING</h1>
+        <p>Premium Smart Investment Hub</p>
+    </div>
+
+    <div class="content">
+        <div id="loginSection">
+            <div class="card-title">🔐 Secure Login</div>
+            <div class="input-group"><label>Username</label><input type="text" id="username" placeholder="Username"></div>
+            <div class="input-group"><label>Password</label><input type="password" id="password" placeholder="••••••••"></div>
+            <button class="btn btn-primary" id="loginBtn">Log In</button>
+            <div class="switch-text">New Investor? <span id="showRegister">Create Account</span></div>
+        </div>
+
+        <div id="registerSection" style="display:none;">
+            <div class="card-title">📝 Register Account</div>
+            <div class="input-group"><label>Username</label><input type="text" id="regUser" placeholder="Choose username"></div>
+            <div class="input-group"><label>Password</label><input type="password" id="regPass" placeholder="Create password"></div>
+            <div class="input-group"><label>Referral Code (Optional)</label><input type="text" id="referral" placeholder="Referral username"></div>
+            <button class="btn btn-primary" id="registerBtn">Register Now</button>
+            <div class="switch-text">Have an account? <span id="showLogin">Login</span></div>
+        </div>
+
+        <div id="dashboard" style="display:none;">
+            
+            <div class="profile-tile">
+                <div class="profile-avatar" id="userAvatar">👤</div>
+                <div class="profile-info">
+                    <div class="profile-name" id="profileName">Loading User...</div>
+                    <div class="profile-referrer" id="profileReferrer">Referred By: <strong>Direct Join</strong></div>
+                </div>
+            </div>
+
+            <div class="balance-card">
+                <div class="balance-label">💰 Available Balance</div>
+                <div class="live-balance" id="balance">0.00 PKR</div>
+                <div class="balance-sub">✦ Auto-profit settlement engine active</div>
+            </div>
+            
+            <div class="mini-tiles">
+                <div class="tile" id="depositBtn"><span class="icon">💳</span><span>Deposit</span></div>
+                <div class="tile" id="withdrawBtn"><span class="icon">💸</span><span>Withdraw</span></div>
+                <div class="tile" id="accountBtn"><span class="icon">🏦</span><span>Account</span></div>
+                <div class="tile" id="historyBtn"><span class="icon">📜</span><span>History</span></div>
+            </div>
+
+            <div id="activePlansSection" style="display:none;">
+                <div class="section-title">🚀 My Active Plans</div>
+                <div class="active-plans-container" id="activePlansGrid"></div>
+            </div>
+
+            <div>
+                <div class="section-title">📈 Investment Tiers (50 Days)</div>
+                <div class="plans-grid" id="plansGrid"></div>
+            </div>
+
+            <div id="referralPanel" class="referral-panel" style="display:none;">
+                <div style="font-size:15px; font-weight:700; color:#fff; display:flex; align-items:center; gap:6px;">🎁 Referral Program</div>
+                <p style="font-size:12px; color:var(--text-muted); margin-top:4px;">Invite friends and get an instant 50 PKR node bonus upon successful registration.</p>
+                
+                <div class="input-group" style="margin-top:12px; margin-bottom:10px;">
+                    <label style="font-size:11px;">Your Code</label>
+                    <div class="referral-box">
+                        <input type="text" id="inviteCodeDisplay" class="referral-input" readonly>
+                        <button class="btn-copy" onclick="copyReferralData('code')">Copy</button>
+                    </div>
+                </div>
+
+                <div class="input-group" style="margin-bottom:6px;">
+                    <label style="font-size:11px;">Shareable Registration URL</label>
+                    <div class="referral-box">
+                        <input type="text" id="inviteLinkDisplay" class="referral-input" readonly style="font-size:11px; text-align:left; padding-left:10px;">
+                        <button class="btn-copy" onclick="copyReferralData('link')">Copy</button>
+                    </div>
+                </div>
+                <div style="font-size:12px; text-align:right; color:var(--success); font-weight:600; margin-top:4px;">Successful Invites: <span id="inviteCount">0</span></div>
+            </div>
+
+            <div id="historyPanel" class="info-panel" style="display:none;">
+                <div class="section-title" style="margin:0 0 10px 0;">📋 Logs</div>
+                <div id="historyList" style="max-height: 250px; overflow-y: auto;"></div>
+            </div>
+
+            <div id="accountPanel" class="info-panel" style="display:none;">
+                <div class="section-title" style="margin:0 0 10px 0;">🏦 Vault Settlement Setup</div>
+                <div class="input-group">
+                    <label>Method</label>
+                    <select id="paymentMethod">
+                        <option value="jazzcash">💙 JazzCash</option>
+                        <option value="easypaisa">💚 EasyPaisa</option>
+                    </select>
+                </div>
+                <div class="input-group"><label>Account Title</label><input type="text" id="accHolder" placeholder="Name"></div>
+                <div class="input-group"><label>Number</label><input type="tel" id="accMobile" placeholder="03xxxxxxxxx"></div>
+                <button class="btn btn-primary" id="saveAccount">💾 Save Details</button>
+                <div id="savedAcc" style="margin-top: 12px; padding: 10px; background: #0f172a; border-radius: 10px; font-size: 13px; text-align: center;"></div>
+            </div>
+
+            <div id="adminPanel" class="admin-panel" style="display:none;">
+                <strong style="color:var(--warn)">🛡️ Admin Control Unit</strong>
+                <div style="margin: 12px 0; font-size:14px;"><strong>Total Registrations:</strong> <span id="totalUsers" style="color:var(--accent-cyan)">0</span></div>
+                <details open><summary>👥 Database Users Management</summary><div id="userList" style="margin-top: 8px; max-height: 350px; overflow-y: auto;"></div></details>
+                <div style="margin-top: 14px; font-size:14px;"><strong>⏳ Gateway Verifications</strong></div>
+                <select id="pendingList" style="width:100%; padding:10px; background:#0f172a; color:#fff; border-radius:8px; margin:8px 0; border:1px solid var(--warn)"></select>
+                <button class="btn btn-success" id="approveReq">✅ Approve Node</button>
+                <button class="btn btn-danger" id="rejectReq">❌ Terminate</button>
+                <button class="btn btn-primary" id="refreshAdminBtn">🔄 Sync Database</button>
+            </div>
+
+            <button class="btn btn-outline" id="logoutBtn" style="margin-top: 25px;">🚪 Disconnect Session</button>
+        </div>
+    </div>
+    <footer>Min Payout: 1000 PKR | Secure Terminal Support: 983361104</footer>
+</div>
+
+<div id="depositModal" class="modal">
+    <div class="modal-content">
+        <h3 style="text-align:center; margin-bottom:15px;">💳 Inbound Gateway</h3>
+        <div class="jazzcash-box">
+            <span style="font-size:12px; color:var(--text-muted)">OFFICIAL JAZZCASH WALLET</span><br>
+            <strong style="font-size:18px; color:#fff;">0983361104</strong>
+        </div>
+        <div class="input-group"><label>Sum (PKR)</label><input type="number" id="depAmount" placeholder="Amount"></div>
+        <div class="input-group"><label>Transaction Hash / ID</label><input type="text" id="txnId" placeholder="Txn ID"></div>
+        <div class="file-label" id="screenshotLabel">📸 Attach Receipt Image</div>
+        <input type="file" id="screenshotInput" accept="image/*" style="display:none;">
+        <img id="screenshotPreview" class="screenshot-preview">
+        <div id="depositAlert" class="alert-box" style="display:none;"></div>
+        <button class="btn btn-primary" id="submitDeposit">Dispatch Ledger Entry</button>
+        <button class="btn btn-outline" id="closeModal" style="margin-top:8px;">Abort</button>
+    </div>
+</div>
+
+<div id="adminUserModal" class="modal">
+    <div class="modal-content" style="max-width: 480px;">
+        <h3 style="text-align:center; color:var(--warn); margin-bottom:15px;">🛠️ Edit User Panel</h3>
+        <div class="input-group">
+            <label>Target Username</label>
+            <input type="text" id="admTargetUser" readonly style="opacity: 0.6;">
+        </div>
+        <div class="input-group">
+            <label>Available Balance (PKR)</label>
+            <input type="number" id="admTargetBalance" step="any">
+        </div>
+        <button class="btn btn-success" id="admSaveUserBalBtn" style="padding:10px; font-size:13px;">💾 Update Balance Only</button>
+        
+        <hr style="border:0; border-top:1px solid #2d3748; margin:15px 0;">
+        
+        <div class="admin-edit-title">➕ Inject Custom Transaction History</div>
+        <div class="input-group" style="margin-bottom:10px;">
+            <label style="font-size:11px;">Type</label>
+            <select id="admNewTxnType" style="padding:8px; font-size:13px;">
+                <option value="deposit">Deposit</option>
+                <option value="withdraw">Withdraw</option>
+                <option value="profit">Profit</option>
+                <option value="referral">Referral</option>
+            </select>
+        </div>
+        <div class="input-group" style="margin-bottom:10px;">
+            <label style="font-size:11px;">Amount (PKR)</label>
+            <input type="number" id="admNewTxnAmount" placeholder="e.g. 1500" style="padding:8px; font-size:13px;">
+        </div>
+        <div class="input-group" style="margin-bottom:10px;">
+            <label style="font-size:11px;">Status</label>
+            <select id="admNewTxnStatus" style="padding:8px; font-size:13px;">
+                <option value="approved">Approved</option>
+                <option value="pending">Pending</option>
+                <option value="rejected">Rejected</option>
+            </select>
+        </div>
+        <div class="input-group" style="margin-bottom:10px;">
+            <label style="font-size:11px;">Custom Ledger Date</label>
+            <input type="date" id="admNewTxnDate" style="padding:8px; font-size:13px;">
+        </div>
+        <div class="input-group" style="margin-bottom:10px;">
+            <label style="font-size:11px;">Description Note</label>
+            <input type="text" id="admNewTxnDesc" placeholder="e.g. Custom profit adjust" style="padding:8px; font-size:13px;">
+        </div>
+        <button class="btn btn-primary" id="admAddTxnBtn" style="padding:10px; font-size:13px; margin-bottom:15px;">⚡ Inject Transaction</button>
+
+        <hr style="border:0; border-top:1px solid #2d3748; margin:15px 0;">
+        
+        <div class="admin-edit-title">📋 Edit Existing Logs</div>
+        <div id="admTxnListContainer" style="max-height: 200px; overflow-y: auto; margin-bottom:15px;"></div>
+
+        <button class="btn btn-outline" id="closeAdminModal" style="margin-top:8px;">Exit Panel</button>
+    </div>
+</div>
+
+<script>
+    const STORAGE_KEYS = {
+        USERS: 'qs_users_final_v4',
+        TXNS: 'qs_txns_final_v4',
+        INVESTMENTS: 'qs_investments_final_v4',
+        LAST_PROFIT: 'qs_last_profit_v4'
+    };
+
+    function getAccountStorageKey(username) {
+        return `qs_secure_vault_act_${username}`;
+    }
+
+    function getUsers() { let d = localStorage.getItem(STORAGE_KEYS.USERS); return d ? JSON.parse(d) : {}; }
+    function saveUsers(u) { localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(u)); }
+    function getTxns() { let d = localStorage.getItem(STORAGE_KEYS.TXNS); return d ? JSON.parse(d) : []; }
+    function saveTxns(t) { localStorage.setItem(STORAGE_KEYS.TXNS, JSON.stringify(t)); }
+    function getInvestments() { let d = localStorage.getItem(STORAGE_KEYS.INVESTMENTS); return d ? JSON.parse(d) : []; }
+    function saveInvestments(i) { localStorage.setItem(STORAGE_KEYS.INVESTMENTS, JSON.stringify(i)); }
+
+    const PLANS = [
+        { amount: 2500, daily: 80, total: 4000 },
+        { amount: 5000, daily: 160, total: 8000 },
+        { amount: 7500, daily: 200, total: 10000 },
+        { amount: 10000, daily: 280, total: 14000 },
+        { amount: 15000, daily: 380, total: 19000 },
+        { amount: 20000, daily: 440, total: 25000 }
+    ];
+
+    let currentUser = null, isAdmin = false, pendingScreenshot = null, pendingInvestAmount = null, timerInterval = null;
+
+    window.onload = function() {
+        let params = new URLSearchParams(window.location.search);
+        let refCode = params.get('ref');
+        if(refCode) {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('registerSection').style.display = 'block';
+            document.getElementById('referral').value = refCode;
+        }
+    };
+
+    function processDailyProfits() {
+        let today = new Date().toDateString();
+        let lastDate = localStorage.getItem(STORAGE_KEYS.LAST_PROFIT);
+        if (lastDate === today) return;
+        localStorage.setItem(STORAGE_KEYS.LAST_PROFIT, today);
+        
+        let investments = getInvestments();
+        let users = getUsers();
+        let updated = false;
+        
+        for (let inv of investments) {
+            if (inv.remainingDays <= 0) continue;
+            if (users[inv.username]) {
+                if(users[inv.username].isBanned) continue;
+
+                users[inv.username].balance = (users[inv.username].balance || 0) + inv.dailyProfit;
+                inv.remainingDays--;
+                inv.lastProfitDate = new Date().toISOString();
+                updated = true;
+                let txns = getTxns();
+                txns.push({ 
+                    id: Date.now() + Math.random(), user: inv.username, type: 'profit', 
+                    amount: inv.dailyProfit, status: 'approved', date: new Date().toISOString(), 
+                    desc: `Profit Dispatch: ${inv.amount} PKR Tier` 
+                });
+                saveTxns(txns);
+            }
+        }
+        if (updated) {
+            saveUsers(users);
+            saveInvestments(investments.filter(i => i.remainingDays > 0));
+        }
+    }
+
+    function register() {
+        let user = document.getElementById('regUser').value.trim();
+        let pass = document.getElementById('regPass').value;
+        let ref = document.getElementById('referral').value.trim();
+        let users = getUsers();
+        if (!user || !pass) { alert('Fill fields'); return; }
+        if (users[user]) { alert('Username taken'); return; }
+        
+        let actualReferrer = "Direct Join";
+        if (ref && users[ref]) {
+            if(!users[ref].isBanned) {
+                users[ref].balance = (users[ref].balance || 0) + 50;
+                actualReferrer = ref;
+                let txns = getTxns();
+                txns.push({ id: Date.now(), user: ref, type: 'referral', amount: 50, status: 'approved', date: new Date().toISOString(), desc: `Bonus ref node: ${user}` });
+                saveTxns(txns);
+            }
+        }
+        
+        users[user] = { password: pass, balance: 0, referredBy: actualReferrer, createdAt: new Date().toISOString(), isBanned: false };
+        saveUsers(users); alert('Success! Interface switching.');
+        document.getElementById('registerSection').style.display = 'none';
+        document.getElementById('loginSection').style.display = 'block';
+    }
+
+    function login() {
+        let user = document.getElementById('username').value.trim();
+        let pass = document.getElementById('password').value;
+        if (user === 'QuickSaving' && pass === 'Allah1234567890@') { isAdmin = true; currentUser = user; showDashboard(); return; }
+        let users = getUsers();
+        if (users[user] && users[user].password === pass) {
+            if(users[user].isBanned) {
+                alert('🔴 Access Denied: Your account has been banned by the Administrator.');
+                return;
+            }
+            currentUser = user; isAdmin = false; showDashboard();
+        } else { alert('Invalid Nodes'); }
+    }
+
+    function showDashboard() {
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('registerSection').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        processDailyProfits();
+        renderProfile();
+        renderBalance();
+        renderPlans();
+        renderActivePlans();
+        renderReferralSystem();
+        if (isAdmin) {
+            document.getElementById('adminPanel').style.display = 'block';
+            loadPending(); loadUserList();
+        } else {
+            document.getElementById('adminPanel').style.display = 'none';
+            loadUserAccount();
+        }
+    }
+
+    function renderProfile() {
+        let nameField = document.getElementById('profileName');
+        let refField = document.getElementById('profileReferrer');
+        let avatarField = document.getElementById('userAvatar');
+        
+        if (isAdmin) {
+            nameField.innerText = "QuickSaving (Admin)";
+            refField.innerHTML = "Access Mode: <strong>Root Controller</strong>";
+            avatarField.innerText = "👑";
+            return;
+        }
+
+        let users = getUsers();
+        let userData = users[currentUser];
+        if (userData) {
+            nameField.innerText = currentUser;
+            avatarField.innerText = currentUser.charAt(0).toUpperCase();
+            let refName = userData.referredBy || "Direct Join";
+            refField.innerHTML = `Referred By: <strong>${refName}</strong>`;
+        }
+    }
+
+    function renderBalance() {
+        let users = getUsers();
+        let bal = isAdmin ? 0 : (users[currentUser]?.balance || 0);
+        document.getElementById('balance').innerHTML = bal.toFixed(2) + ' PKR';
+    }
+
+    function renderPlans() {
+        let html = '';
+        PLANS.forEach((plan) => {
+            html += `<div class="plan-card">
+                <div class="plan-amount">${plan.amount} PKR</div>
+                <div class="plan-daily">Daily: +${plan.daily} PKR</div>
+                <div class="plan-total">Yield: ${plan.total} PKR</div>
+                <button class="invest-btn" onclick="checkAndInvest(${plan.amount}, ${plan.daily})">Deploy Fund</button>
+            </div>`;
+        });
+        document.getElementById('plansGrid').innerHTML = html;
+    }
+
+    function renderActivePlans() {
+        if (isAdmin) {
+            document.getElementById('activePlansSection').style.display = 'none';
+            return;
+        }
+        let investments = getInvestments().filter(i => i.username === currentUser);
+        let container = document.getElementById('activePlansGrid');
+        
+        if(investments.length === 0) {
+            document.getElementById('activePlansSection').style.display = 'none';
+            if(timerInterval) clearInterval(timerInterval);
+            return;
+        }
+
+        document.getElementById('activePlansSection').style.display = 'block';
+        if(timerInterval) clearInterval(timerInterval);
+
+        function updateTimers() {
+            let html = '';
+            let now = new Date();
+            let nextPayout = new Date();
+            nextPayout.setHours(24,0,0,0); 
+            let diff = nextPayout - now;
+
+            let hours = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+            let mins = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+            let secs = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+            let timeString = `${hours}:${mins}:${secs}`;
+
+            investments.forEach((inv) => {
+                html += `<div class="active-plan-card">
+                    <div class="active-plan-header">
+                        <span>⚡ Plan Tier: ${inv.amount} PKR</span>
+                        <span style="color:var(--success)">+${inv.dailyProfit} PKR / Day</span>
+                    </div>
+                    <div class="active-plan-meta">
+                        <span>Duration Status: <strong>${inv.remainingDays} Days left</strong></span>
+                        <span>Next Credit: <span class="countdown-timer">${timeString}</span></span>
+                    </div>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        updateTimers();
+        timerInterval = setInterval(updateTimers, 1000);
+    }
+
+    function renderReferralSystem() {
+        if (isAdmin) {
+            document.getElementById('referralPanel').style.display = 'none';
+            return;
+        }
+        document.getElementById('referralPanel').style.display = 'block';
+        document.getElementById('inviteCodeDisplay').value = currentUser;
+        
+        let path = window.location.href.split('?')[0];
+        document.getElementById('inviteLinkDisplay').value = `${path}?ref=${currentUser}`;
+
+        let users = getUsers();
+        let count = 0;
+        for (let u in users) {
+            if (users[u].referredBy === currentUser) count++;
+        }
+        document.getElementById('inviteCount').innerText = count;
+    }
+
+    function copyReferralData(type) {
+        let targetId = type === 'code' ? 'inviteCodeDisplay' : 'inviteLinkDisplay';
+        let copyText = document.getElementById(targetId);
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value);
+        alert(`📋 Copied successful: ${copyText.value}`);
+    }
+
+    function checkAndInvest(amount, dailyProfit) {
+        if (isAdmin) { alert('Admin rule error'); return; }
+        let users = getUsers();
+        let curBal = users[currentUser]?.balance || 0;
+        if (curBal >= amount) {
+            if (confirm(`Deploy ${amount} PKR into this pipeline?`)) investDirect(amount, dailyProfit);
+        } else {
+            let need = amount - curBal;
+            if (confirm(`Insufficient liquidity! Need ${need} PKR. Route to transfer terminal?`)) {
+                pendingInvestAmount = { amount: amount, dailyProfit: dailyProfit };
+                showDepositModalWithAmount(need);
+            }
+        }
+    }
+
+    function investDirect(amount, dailyProfit) {
+        let users = getUsers();
+        if (users[currentUser].balance < amount) return;
+        users[currentUser].balance -= amount; saveUsers(users);
+        let investments = getInvestments();
+        investments.push({ username: currentUser, amount: amount, dailyProfit: dailyProfit, remainingDays: 50, startDate: new Date().toISOString() });
+        saveInvestments(investments);
+        let txns = getTxns();
+        txns.push({ id: Date.now(), user: currentUser, type: 'investment', amount: amount, status: 'approved', date: new Date().toISOString(), desc: `Deployed: ${amount} PKR Plan` });
+        saveTxns(txns);
+        renderBalance();
+        renderActivePlans();
+        alert(`✅ Deployment successful!`);
+    }
+
+    function showDepositModalWithAmount(amount) {
+        document.getElementById('depAmount').value = amount;
+        document.getElementById('txnId').value = '';
+        document.getElementById('screenshotPreview').style.display = 'none';
+        pendingScreenshot = null; document.getElementById('depositModal').style.display = 'flex';
+        let alertBox = document.getElementById('depositAlert'); alertBox.style.display = 'block';
+        alertBox.innerHTML = `⚠️ Pipeline lock: Deposit ${amount} PKR to activate the matching investment chain automatically.`;
+    }
+
+    function showDepositModal() {
+        pendingInvestAmount = null; document.getElementById('depAmount').value = '';
+        document.getElementById('txnId').value = ''; document.getElementById('screenshotPreview').style.display = 'none';
+        pendingScreenshot = null; document.getElementById('depositAlert').style.display = 'none';
+        document.getElementById('depositModal').style.display = 'flex';
+    }
+
+    document.getElementById('screenshotLabel').onclick = () => document.getElementById('screenshotInput').click();
+    document.getElementById('screenshotInput').onchange = (e) => {
+        let file = e.target.files[0];
+        if (file) {
+            let r = new FileReader(); r.onload = (ev) => {
+                document.getElementById('screenshotPreview').src = ev.target.result;
+                document.getElementById('screenshotPreview').style.display = 'block';
+                pendingScreenshot = ev.target.result;
+            }; r.readAsDataURL(file);
+        }
+    };
+
+    function submitDeposit() {
+        let amt = parseFloat(document.getElementById('depAmount').value);
+        let tid = document.getElementById('txnId').value.trim();
+        if (!amt || amt <= 0 || !tid) { alert('Invalid input metrics'); return; }
+        let txns = getTxns();
+        let dep = { id: Date.now(), user: currentUser, type: 'deposit', amount: amt, status: 'pending', txnId: tid, screenshot: pendingScreenshot || 'no_screenshot', date: new Date().toISOString(), desc: `Inbound Trans: ${amt} PKR` };
+        if (pendingInvestAmount) dep.pendingInvestment = pendingInvestAmount;
+        txns.push(dep); saveTxns(txns);
+        alert('Ledger query submitted for admin block validation.');
+        document.getElementById('depositModal').style.display = 'none';
+        pendingInvestAmount = null; if (isAdmin) loadPending();
+    }
+
+    function requestWithdraw() {
+        let amt = prompt('Payout magnitude (Min 1000):'); if (!amt) return;
+        amt = parseFloat(amt); if (amt < 1000) { alert('Limit error'); return; }
+        let users = getUsers(); if (users[currentUser].balance < amt) { alert('Liquidity low'); return; }
+        
+        let rawSecureAcc = localStorage.getItem(getAccountStorageKey(currentUser));
+        if (!rawSecureAcc) { alert('Configure settlement gateway first.'); return; }
+        let parsedAcc = JSON.parse(rawSecureAcc);
+        
+        users[currentUser].balance -= amt; saveUsers(users);
+        let txns = getTxns();
+        txns.push({ 
+            id: Date.now(), 
+            user: currentUser, 
+            type: 'withdraw', 
+            amount: amt, 
+            status: 'pending', 
+            account: parsedAcc, 
+            date: new Date().toISOString(), 
+            desc: `Payout Route: ${parsedAcc.method} (${parsedAcc.mobile})` 
+        });
+        saveTxns(txns); renderBalance(); alert('Payout scheduled.'); if (isAdmin) loadPending();
+    }
+
+    function saveAccount() {
+        let m = document.getElementById('paymentMethod').value;
+        let h = document.getElementById('accHolder').value.trim();
+        let mob = document.getElementById('accMobile').value.trim();
+        if (!h || !mob) { alert('Params missing'); return; }
+        
+        let accountData = { method: m, name: h, mobile: mob };
+        localStorage.setItem(getAccountStorageKey(currentUser), JSON.stringify(accountData));
+        
+        document.getElementById('savedAcc').innerHTML = `Linked: ${m.toUpperCase()} | ${mob}`;
+        alert('Routing saved securely.');
+    }
+
+    function loadUserAccount() {
+        document.getElementById('accHolder').value = '';
+        document.getElementById('accMobile').value = '';
+        
+        let rawSecureAcc = localStorage.getItem(getAccountStorageKey(currentUser));
+        if (rawSecureAcc) {
+            let a = JSON.parse(rawSecureAcc); 
+            document.getElementById('paymentMethod').value = a.method;
+            document.getElementById('accHolder').value = a.name; 
+            document.getElementById('accMobile').value = a.mobile;
+            document.getElementById('savedAcc').innerHTML = `Active Routing: ${a.method.toUpperCase()} | ${a.mobile}`;
+        } else { 
+            document.getElementById('savedAcc').innerHTML = 'No routing endpoints integrated.'; 
+        }
+    }
+
+    function showHistory() {
+        let txns = getTxns().filter(t => t.user === currentUser); let html = '';
+        txns.slice().reverse().forEach(t => {
+            let c = t.status === 'approved' ? 'var(--success)' : (t.status === 'pending' ? 'var(--warn)' : 'var(--danger)');
+            let displayDate = t.date ? new Date(t.date).toLocaleDateString() : 'N/A';
+            html += `<div class="history-item">
+                <strong>${t.type.toUpperCase()}</strong> | ${t.amount} PKR | <span style="color:${c}">${t.status}</span> | <small>${displayDate}</small><br>
+                <small style="color:var(--text-muted)">${t.desc || ''}</small>
+            </div>`;
+        });
+        document.getElementById('historyList').innerHTML = html || 'Empty nodelogs.';
+        document.getElementById('historyPanel').style.display = 'block'; document.getElementById('accountPanel').style.display = 'none';
+    }
+
+    function loadPending() {
+        let txns = getTxns().filter(t => t.status === 'pending');
+        document.getElementById('pendingList').innerHTML = txns.length === 0 ? '<option>No pending requests</option>' : txns.map(t => `<option value="${t.id}">${t.type.toUpperCase()} | ${t.user} | ${t.amount} PKR</option>`).join('');
+    }
+
+    function loadUserList() {
+        let users = getUsers(); let html = '';
+        for (let u in users) {
+            let statusBadge = users[u].isBanned ? '<span style="color:var(--danger)">[Banned]</span>' : '<span style="color:var(--success)">[Active]</span>';
+            let toggleBanBtn = users[u].isBanned ? 
+                `<button class="btn-mini btn-mini-unban" onclick="controlUser('${u}', 'unban')">🟢 Unban</button>` : 
+                `<button class="btn-mini btn-mini-ban" onclick="controlUser('${u}', 'ban')">🔴 Ban</button>`;
+
+            html += `<div class="user-list-item">
+                <div class="user-row-top">
+                    <div>👤 <strong>${u}</strong> | Bal: ${users[u].balance.toFixed(2)} PKR ${statusBadge}</div>
+                </div>
+                <div class="user-controls">
+                    <button class="btn-mini btn-mini-edit" onclick="openAdminUserEdit('${u}')">✏️ Edit Engine</button>
+                    ${toggleBanBtn}
+                    <button class="btn-mini btn-mini-del" onclick="controlUser('${u}', 'delete')">🗑️ Delete</button>
+                </div>
+            </div>`;
+        }
+        document.getElementById('userList').innerHTML = html || 'No data blocks.';
+        document.getElementById('totalUsers').innerText = Object.keys(users).length;
+    }
+
+    function openAdminUserEdit(username) {
+        let users = getUsers();
+        if(!users[username]) return;
+
+        document.getElementById('admTargetUser').value = username;
+        document.getElementById('admTargetBalance').value = users[username].balance;
+        
+        document.getElementById('admNewTxnAmount').value = '';
+        document.getElementById('admNewTxnDesc').value = '';
+        document.getElementById('admNewTxnDate').value = new Date().toISOString().split('T')[0];
+
+        renderAdminUserTxns(username);
+        document.getElementById('adminUserModal').style.display = 'flex';
+    }
+
+    function renderAdminUserTxns(username) {
+        let txns = getTxns().filter(t => t.user === username);
+        let container = document.getElementById('admTxnListContainer');
+        let html = '';
+
+        txns.slice().reverse().forEach(t => {
+            let dateVal = t.date ? t.date.split('T')[0] : '';
+            html += `<div class="edit-hist-item">
+                <div style="display:flex; justify-content:space-between; margin-bottom: 4px;">
+                    <strong>ID: ${t.id} (${t.type.toUpperCase()})</strong>
+                    <button class="btn-mini btn-mini-del" style="padding:1px 4px; font-size:9px;" onclick="deleteTxnByAdmin(${t.id}, '${username}')">X</button>
+                </div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin-bottom:4px;">
+                    <input type="number" value="${t.amount}" id="admAmt-${t.id}" style="padding:4px; font-size:10px; background:#0f172a; color:#fff; border:1px solid #4b5563; border-radius:4px;">
+                    <select id="admStat-${t.id}" style="padding:4px; font-size:10px; background:#0f172a; color:#fff; border:1px solid #4b5563; border-radius:4px;">
+                        <option value="approved" ${t.status==='approved'?'selected':''}>Approved</option>
+                        <option value="pending" ${t.status==='pending'?'selected':''}>Pending</option>
+                        <option value="rejected" ${t.status==='rejected'?'selected':''}>Rejected</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:4px;">
+                    <input type="date" value="${dateVal}" id="admDate-${t.id}" style="width:100%; padding:4px; font-size:10px; background:#0f172a; color:#fff; border:1px solid #4b5563; border-radius:4px;">
+                </div>
+                <div style="display:flex; gap:4px;">
+                    <input type="text" value="${t.desc||''}" id="admDesc-${t.id}" style="flex:1; padding:4px; font-size:10px; background:#0f172a; color:#fff; border:1px solid #4b5563; border-radius:4px;">
+                    <button class="btn-mini btn-mini-unban" style="padding:2px 6px; font-size:10px;" onclick="saveTxnByAdmin(${t.id}, '${username}')">Save</button>
+                </div>
+            </div>`;
+        });
+
+        container.innerHTML = html || '<div style="color:var(--text-muted); font-size:12px; text-align:center;">No history blocks for this user.</div>';
+    }
+
+    document.getElementById('admSaveUserBalBtn').onclick = () => {
+        let username = document.getElementById('admTargetUser').value;
+        let newBal = parseFloat(document.getElementById('admTargetBalance').value);
+        if(isNaN(newBal)) { alert('Invalid Balance Metric'); return; }
+
+        let users = getUsers();
+        if(users[username]) {
+            users[username].balance = newBal;
+            saveUsers(users);
+            loadUserList();
+            renderBalance();
+            alert(`Balance updated for ${username}`);
+        }
+    };
+
+    document.getElementById('admAddTxnBtn').onclick = () => {
+        let username = document.getElementById('admTargetUser').value;
+        let type = document.getElementById('admNewTxnType').value;
+        let amt = parseFloat(document.getElementById('admNewTxnAmount').value);
+        let status = document.getElementById('admNewTxnStatus').value;
+        let dateVal = document.getElementById('admNewTxnDate').value;
+        let desc = document.getElementById('admNewTxnDesc').value.trim();
+
+        if(isNaN(amt) || amt < 0) { alert('Enter valid custom layout amount'); return; }
+        
+        let txns = getTxns();
+        let ISO_Date = dateVal ? new Date(dateVal).toISOString() : new Date().toISOString();
+
+        txns.push({
+            id: Date.now() + Math.floor(Math.random()*100),
+            user: username,
+            type: type,
+            amount: amt,
+            status: status,
+            date: ISO_Date,
+            desc: desc || `Admin custom ${type}`
+        });
+
+        saveTxns(txns);
+        renderAdminUserTxns(username);
+        alert('Custom history element injected.');
+    };
+
+    function saveTxnByAdmin(txnId, username) {
+        let newAmt = parseFloat(document.getElementById(`admAmt-${txnId}`).value);
+        let newStatus = document.getElementById(`admStat-${txnId}`).value;
+        let newDate = document.getElementById(`admDate-${txnId}`).value;
+        let newDesc = document.getElementById(`admDesc-${txnId}`).value;
+
+        if(isNaN(newAmt)) { alert('Invalid numeric mapping'); return; }
+
+        let txns = getTxns();
+        let idx = txns.findIndex(t => t.id === txnId);
+        if(idx !== -1) {
+            txns[idx].amount = newAmt;
+            txns[idx].status = newStatus;
+            if(newDate) txns[idx].date = new Date(newDate).toISOString();
+            txns[idx].desc = newDesc;
+            
+            saveTxns(txns);
+            renderAdminUserTxns(username);
+            alert('Ledger entry row updated.');
+        }
+    }
+
+    function deleteTxnByAdmin(txnId, username) {
+        if(confirm('Wipe this ledger history track block permanently?')) {
+            let txns = getTxns();
+            txns = txns.filter(t => t.id !== txnId);
+            saveTxns(txns);
+            renderAdminUserTxns(username);
+        }
+    }
+
+    document.getElementById('closeAdminModal').onclick = () => {
+        document.getElementById('adminUserModal').style.display = 'none';
+    };
+
+    function controlUser(username, action) {
+        let users = getUsers();
+        if (!users[username]) return;
+
+        if (action === 'ban') {
+            if (confirm(`Are you sure you want to BAN ${username}?`)) {
+                users[username].isBanned = true;
+                alert(`${username} has been banned.`);
+            }
+        } else if (action === 'unban') {
+            if (confirm(`Unban user ${username}?`)) {
+                users[username].isBanned = false;
+                alert(`${username} has been unbanned.`);
+            }
+        } else if (action === 'delete') {
+            if (confirm(`❗ DANGER: Permanently delete ${username} from the database? This cannot be undone.`)) {
+                delete users[username];
+                localStorage.removeItem(getAccountStorageKey(username));
+                let invs = getInvestments();
+                invs = invs.filter(i => i.username !== username);
+                saveInvestments(invs);
+                alert(`${username} completely wiped from data nodes.`);
+            }
+        }
+        saveUsers(users);
+        loadUserList();
+    }
+
+    function approveRequest() {
+        let id = parseInt(document.getElementById('pendingList').value); if (isNaN(id)) return;
+        let txns = getTxns(); let idx = txns.findIndex(t => t.id === id); if (idx === -1 || txns[idx].status !== 'pending') return;
+        
+        let txn = txns[idx]; txn.status = 'approved'; let users = getUsers();
+        if (txn.type === 'deposit') {
+            if (users[txn.user]) users[txn.user].balance = (users[txn.user].balance || 0) + txn.amount;
+            saveUsers(users);
+            if (txn.pendingInvestment) {
+                users = getUsers();
+                if (users[txn.user] && users[txn.user].balance >= txn.pendingInvestment.amount) {
+                    users[txn.user].balance -= txn.pendingInvestment.amount; saveUsers(users);
+                    let invs = getInvestments(); invs.push({ username: txn.user, amount: txn.pendingInvestment.amount, dailyProfit: txn.pendingInvestment.dailyProfit, remainingDays: 50, startDate: new Date().toISOString() });
+                    saveInvestments(invs);
+                    txns.push({ id: Date.now() + 1, user: txn.user, type: 'investment', amount: txn.pendingInvestment.amount, status: 'approved', date: new Date().toISOString(), desc: `Auto-invest deployed.` });
+                }
+            }
+        }
+        saveTxns(txns); loadPending(); loadUserList(); renderBalance(); renderActivePlans(); alert('Node verified successfully.');
+    }
+
+    function rejectRequest() {
+        let id = parseInt(document.getElementById('pendingList').value); if (isNaN(id)) return;
+        let txns = getTxns(); let idx = txns.findIndex(t => t.id === id); if (idx === -1) return;
+        let txn = txns[idx]; txn.status = 'rejected';
+        if (txn.type === 'withdraw') {
+            let users = getUsers(); if (users[txn.user]) users[txn.user].balance = (users[txn.user].balance || 0) + txn.amount;
+            saveUsers(users);
+        }
+        saveTxns(txns); loadPending(); loadUserList(); renderBalance(); alert('Node terminated.');
+    }
+
+    function logout() {
+        currentUser = null; isAdmin = false; if(timerInterval) clearInterval(timerInterval);
+        document.getElementById('dashboard').style.display = 'none'; document.getElementById('loginSection').style.display = 'block';
+    }
+
+    document.getElementById('loginBtn').onclick = login;
+    document.getElementById('registerBtn').onclick = register;
+    document.getElementById('showRegister').onclick = () => { document.getElementById('loginSection').style.display = 'none'; document.getElementById('registerSection').style.display = 'block'; };
+    document.getElementById('showLogin').onclick = () => { document.getElementById('registerSection').style.display = 'none'; document.getElementById('loginSection').style.display = 'block'; };
+    document.getElementById('depositBtn').onclick = showDepositModal;
+    document.getElementById('withdrawBtn').onclick = requestWithdraw;
+    document.getElementById('historyBtn').onclick = showHistory;
+    document.getElementById('accountBtn').onclick = () => { document.getElementById('accountPanel').style.display = 'block'; document.getElementById('historyPanel').style.display = 'none'; };
+    document.getElementById('saveAccount').onclick = saveAccount;
+    document.getElementById('logoutBtn').onclick = logout;
+    document.getElementById('submitDeposit').onclick = submitDeposit;
+    document.getElementById('closeModal').onclick = () => document.getElementById('depositModal').style.display = 'none';
+    document.getElementById('approveReq').onclick = approveRequest;
+    document.getElementById('rejectReq').onclick = rejectRequest;
+    document.getElementById('refreshAdminBtn').onclick = () => { loadPending(); loadUserList(); alert('Sync complete.'); };
+</script>
+</body>
+</html>
